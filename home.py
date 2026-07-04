@@ -33,3 +33,15 @@ nltk.download('omw-1.4')
 
 STOPWORDS = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
+
+
+# ===========================================================
+# PHASE 2: Load dataset and inspect 
+# ===========================================================
+DATA_PATH = "data/IMDB Dataset.csv"  # adjust filename if different
+df = pd.read_csv(DATA_PATH)
+
+print("Shape of dataset:", df.shape)
+print("\nColumn names:", df.columns.tolist())
+print("\nSample rows:")
+print(df.head())
