@@ -121,3 +121,30 @@ lr_model.fit(X_train_tfidf, y_train)
 print("Training Naive Bayes...")
 nb_model = MultinomialNB()
 nb_model.fit(X_train_tfidf, y_train)
+
+
+# ===========================================================
+# PHASE 8: Evaluate models
+# ===========================================================
+def evaluate(model, name):
+    preds = model.predict(X_test_tfidf)
+    acc = accuracy_score(y_test, preds)
+    print(f"\n--- {name} ---")
+    print(f"Accuracy: {acc:.4f}")
+    print(classification_report(y_test, preds, target_names=['negative', 'positive']))
+
+    cm = confusion_matrix(y_test, preds)
+    plt.figure(figsize=(5, 4))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=['negative', 'positive'],
+                yticklabels=['negative', 'positive'])
+    plt.title(f"Confusion Matrix - {name}")
+    plt.ylabel("Actual")
+    plt.xlabel("Predicted")
+    plt.savefig(f"confusion_matrix_{name.replace(' ', '_')}.png")
+    plt.close()
+
+    return acc
+
+lr_acc = evaluate(lr_model, "Logistic Regression")
+nb_acc = evaluate(nb_model, "Naive Bayes")
