@@ -69,3 +69,22 @@ plt.savefig("eda_review_length.png")
 plt.close()
 
 print("\nEDA plots saved: eda_class_balance.png, eda_review_length.png")
+
+
+# ===========================================================
+# PHASE 4: Text cleaning function + apply to dataset
+# ===========================================================
+def clean_text(text):
+    text = str(text).lower()
+    text = re.sub(r'<.*?>', ' ', text)                     # remove HTML tags (e.g. <br />)
+    text = re.sub(r'[^a-z\s]', ' ', text)                   # remove punctuation/numbers
+    text = re.sub(r'\s+', ' ', text).strip()                # remove extra whitespace
+    tokens = text.split()
+    tokens = [lemmatizer.lemmatize(w) for w in tokens if w not in STOPWORDS]
+    return ' '.join(tokens)
+
+print("\nCleaning text... (this may take a minute on 50k rows)")
+df['cleaned_review'] = df['review'].apply(clean_text)
+print("Done cleaning.")
+print("\nBefore:", df['review'].iloc[0][:200])
+print("\nAfter: ", df['cleaned_review'].iloc[0][:200])
