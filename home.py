@@ -109,3 +109,15 @@ print(f"\nTrain size: {len(X_train)}, Test size: {len(X_test)}")
 vectorizer = TfidfVectorizer(max_features=5000, ngram_range=(1, 2))
 X_train_tfidf = vectorizer.fit_transform(X_train)
 X_test_tfidf = vectorizer.transform(X_test)
+
+
+# ===========================================================
+# PHASE 7: Train models (Logistic Regression + Naive Bayes)
+# ===========================================================
+print("\nTraining Logistic Regression...")
+lr_model = LogisticRegression(max_iter=1000)
+lr_model.fit(X_train_tfidf, y_train)
+
+print("Training Naive Bayes...")
+nb_model = MultinomialNB()
+nb_model.fit(X_train_tfidf, y_train)
