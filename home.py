@@ -88,3 +88,16 @@ df['cleaned_review'] = df['review'].apply(clean_text)
 print("Done cleaning.")
 print("\nBefore:", df['review'].iloc[0][:200])
 print("\nAfter: ", df['cleaned_review'].iloc[0][:200])
+
+
+# ===========================================================
+# PHASE 5: Encode labels + train/test split
+# ===========================================================
+df['label'] = df['sentiment'].map({'positive': 1, 'negative': 0})
+
+X_train, X_test, y_train, y_test = train_test_split(
+    df['cleaned_review'], df['label'],
+    test_size=0.2, random_state=42, stratify=df['label']
+)
+
+print(f"\nTrain size: {len(X_train)}, Test size: {len(X_test)}")
