@@ -148,3 +148,29 @@ def evaluate(model, name):
 
 lr_acc = evaluate(lr_model, "Logistic Regression")
 nb_acc = evaluate(nb_model, "Naive Bayes")
+
+
+# ===========================================================
+# PHASE 9: Save the best model + vectorizer
+# ===========================================================
+best_model, best_name = (lr_model, "Logistic Regression") if lr_acc >= nb_acc else (nb_model, "Naive Bayes")
+print(f"\nBest model: {best_name} (Accuracy: {max(lr_acc, nb_acc):.4f})")
+
+os.makedirs("model", exist_ok=True)
+joblib.dump(best_model, "model/sentiment_model.pkl")
+joblib.dump(vectorizer, "model/tfidf_vectorizer.pkl")
+
+print("\nSaved model/sentiment_model.pkl and model/tfidf_vectorizer.pkl")
+
+
+# ===========================================================
+# PHASE 9: Save the best model + vectorizer
+# ===========================================================
+best_model, best_name = (lr_model, "Logistic Regression") if lr_acc >= nb_acc else (nb_model, "Naive Bayes")
+print(f"\nBest model: {best_name} (Accuracy: {max(lr_acc, nb_acc):.4f})")
+
+os.makedirs("model", exist_ok=True)
+joblib.dump(best_model, "model/sentiment_model.pkl")
+joblib.dump(vectorizer, "model/tfidf_vectorizer.pkl")
+
+print("\nSaved model/sentiment_model.pkl and model/tfidf_vectorizer.pkl")
