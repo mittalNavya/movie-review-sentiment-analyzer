@@ -6,8 +6,13 @@ Flask API that serves sentiment predictions from the saved model.
 from flask import Flask, request, jsonify
 import joblib
 import re
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
 STOPWORDS = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
