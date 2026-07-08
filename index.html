@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Now Screening — Sentiment Analyzer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #16110d;
+    --card: #1f1811;
+    --gold: #c9a24b;
+    --gold-dim: #8a723a;
+    --cream: #f4e9d8;
+    --velvet: #6b1f2a;
+    --velvet-light: #8a2a38;
+    --positive: #7ea87f;
+    --negative: #c06a5f;
+    --hole: #0c0906;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at top, rgba(201,162,75,0.08), transparent 60%);
+    font-family: 'Work Sans', sans-serif;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .marquee {
+    width: 100%;
+    max-width: 520px;
+    background: var(--card);
+    border: 1px solid var(--gold-dim);
+    border-radius: 4px;
+    position: relative;
+    padding: 40px 36px 34px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+
+  .sprockets {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 4px;
+    margin-bottom: 28px;
+  }
+  .sprockets span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--hole);
+    border: 1px solid var(--gold-dim);
+  }
+
+  .eyebrow {
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 32px;
+    letter-spacing: 1px;
+    margin: 0 0 8px;
+    color: var(--cream);
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #b9ab98;
+    margin: 0 0 28px;
+    line-height: 1.5;
+  }
+
+  label.field-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 130px;
+    padding: 14px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    background: #120d09;
+    color: var(--cream);
+    border: 1px solid #3a2f22;
+    border-radius: 3px;
+    resize: vertical;
+  }
+  textarea::placeholder { color: #6b5e4d; }
+  textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: var(--velvet);
+    color: var(--cream);
+    border: 1px solid var(--gold-dim);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  button:hover { background: var(--velvet-light); }
+  button:disabled { opacity: 0.6; cursor: default; }
+
+  .result-area {
+    margin-top: 26px;
+    min-height: 20px;
+  }
+
+  .status-text {
+    text-align: center;
+    font-size: 13px;
+    color: #b9ab98;
+    font-style: italic;
+  }
+
+  .stamp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px;
+    border: 2px solid;
+    border-radius: 4px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    animation: stampIn 0.25s ease-out;
+    transform: rotate(-1.5deg);
+  }
+  .stamp.positive {
+    color: var(--positive);
+    border-color: var(--positive);
+    background: rgba(126,168,127,0.08);
+  }
+  .stamp.negative {
+    color: var(--negative);
+    border-color: var(--negative);
+    background: rgba(192,106,95,0.08);
+  }
+
+  @keyframes stampIn {
+    from { opacity: 0; transform: scale(1.15) rotate(-1.5deg); }
+    to   { opacity: 1; transform: scale(1) rotate(-1.5deg); }
+  }
+
+  .error-text {
+    text-align: center;
+    font-size: 13px;
+    color: var(--negative);
+  }
+
+  .sprockets.bottom { margin-top: 30px; margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+  <div class="marquee">
+    <div class="sprockets">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="eyebrow">Now Screening</div>
+    <h1>Sentiment Analyzer</h1>
+    <p class="subtitle">Type a movie review below. The model will judge whether the critic loved it or hated it.</p>
+
+    <label class="field-label" for="reviewInput">Your Review</label>
+    <textarea id="reviewInput" placeholder="e.g. The cinematography was stunning and the story kept me hooked till the end."></textarea>
+
+    <button id="analyzeBtn" onclick="analyzeSentiment()">Analyze Review</button>
+
+    <div class="result-area" id="result"></div>
+
+    <div class="sprockets bottom">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <script>
+    // Replace this with your own Render URL if different
+    const API_URL = "https://movie-review-sentiment-analyzer-8gf3.onrender.com/predict";
+
+    async function analyzeSentiment() {
+      const review = document.getElementById("reviewInput").value;
+      const resultDiv = document.getElementById("result");
+      const btn = document.getElementById("analyzeBtn");
+
+      if (!review.trim()) {
+        resultDiv.innerHTML = '<div class="error-text">Please enter a review first.</div>';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Analyzing...";
+      resultDiv.innerHTML = '<div class="status-text">Reading between the lines... (may take up to 50s if the server was asleep)</div>';
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ review: review })
+        });
+
+        const data = await response.json();
+        const sentiment = data.predicted_sentiment;
+
+        resultDiv.innerHTML =
+          '<div class="stamp ' + sentiment + '">' +
+            (sentiment === "positive" ? "★ Positive Review ★" : "✕ Negative Review ✕") +
+          '</div>';
+      } catch (error) {
+        resultDiv.innerHTML = '<div class="error-text">Could not reach the API. Please try again.</div>';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Analyze Review";
+      }
+    }
+  </script>
+
+</body>
+</html>
