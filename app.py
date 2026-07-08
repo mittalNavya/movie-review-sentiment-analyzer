@@ -4,6 +4,7 @@ Flask API that serves sentiment predictions from the saved model.
 """
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import joblib
 import re
 import nltk
@@ -18,6 +19,7 @@ STOPWORDS = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
 app = Flask(__name__)
+CORS(app)
 
 # ===========================================================
 # PHASE 11: Load model once at startup + create /predict endpoint
