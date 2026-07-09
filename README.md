@@ -1,4 +1,4 @@
-# Movie Review Sentiment Analyzer
+# CineSense
 
 An end-to-end NLP system that classifies movie reviews as **positive** or **negative**, built with TF-IDF + Logistic Regression and deployed as a live Flask REST API.
 
